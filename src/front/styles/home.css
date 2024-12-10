@@ -125,4 +125,21 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#EA9010", en
 
 body {
   background-color: #98a863;
+  height: 100vh;
+}
+
+
+.profile-content {
+  
+  background-color: white;
+}
+
+.profile-title {
+  font-size: 20px;
+  font-weight: 500px;
+}
+
+.profile-layout {
+  display: grid;
+  grid-template-columns: auto auto;
 }

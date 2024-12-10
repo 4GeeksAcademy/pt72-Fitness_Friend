@@ -308,6 +308,7 @@
             ],
             "index": "pypi",
             "version": "==23.0.0"
+
         },
         "itsdangerous": {
             "hashes": [

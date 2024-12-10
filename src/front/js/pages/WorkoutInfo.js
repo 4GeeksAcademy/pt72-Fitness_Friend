@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-const MealInfo = () => {
-  const { MealId } = useParams();
+const WorkoutInfo = () => {
+  const { WorkoutID } = useParams();
   const [info, setInfo] = useState({});
 
   useEffect(() => {
     async function getInfo() {
-      let res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${MealId}`);
+      let res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${WorkoutID}`);
       let data = await res.json();
       console.log(data);
       setInfo(data.meals[0]);
     }
     getInfo();
-  }, [MealId]);
+  }, [WorkoutID]);
 
   const ingredientArray = Object.keys(info)
     .filter(key => key.startsWith('strIngredient') && info[key])
     .map(key => info[key]);
+
 
   const measureArray = Object.keys(info)
     .filter(key => key.startsWith('strMeasure') && info[key])
@@ -31,12 +32,13 @@ const MealInfo = () => {
         const videoStr = videoUrl.split('=');
         vId = videoStr[videoStr.length - 1];
       }
-      return vId;
-    };
-    
+    }
+    return vId;
+  };
+
 
   const vId = videoId()
-  
+
   return (
     <>
       {!info ? (
@@ -67,7 +69,6 @@ const MealInfo = () => {
                   <h2>Instructions</h2>
                   <p>{info.strInstructions}</p>
                 </div>
-
               </div>
             </div>
           </div>
@@ -86,4 +87,4 @@ const MealInfo = () => {
   );
 };
 
-export default MealInfo;
+export default WorkoutInfo;

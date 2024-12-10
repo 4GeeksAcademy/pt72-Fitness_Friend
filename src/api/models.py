@@ -10,6 +10,7 @@ class User(db.Model):
     last_name = db.Column(db.String(80), nullable=True)
     height = db.Column(db.Float, nullable=True)
     weight = db.Column(db.Float, nullable=True)
+    pic = db.Column(db.String(750), nullable=True)
     
     def __repr__(self):
         return f'<User {self.email}>'
