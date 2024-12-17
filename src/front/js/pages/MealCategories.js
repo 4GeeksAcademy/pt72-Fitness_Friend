@@ -26,7 +26,7 @@ const MealCategories = ({ catIndex }) => {
             {cat.map((cat) => (
                 <div className="box" key={cat.idCategory}
                     onClick={() => catIndex(cat.strCategory)}>
-                    <div class="cat_button p-3">
+                    <div className="cat_button p-3">
                     <h3>{cat.strCategory}</h3>
                     </div>
                     

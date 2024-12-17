@@ -32,7 +32,7 @@ export const SignUp = () => {
     }
     let data = await response.json();
 
-    // navigate("/")
+    navigate("/")
   };
 
   return (

@@ -1,42 +1,41 @@
 * {
-  font-family: "Poppins", sans-serif;
-  /* Fixed comma issue */
+  font-family: "Poppins" sans-serif;
   text-decoration: none;
   font-size: 15px;
 }
 
-/* Iframe styles */
+
 iframe {
-  height: 500px;
-  width: 100%;
+height: 500px;
+width: 100%;
 }
 
-/* Category Button Styles */
 .cat_button {
-  cursor: pointer;
-  display: inline-block;
-  padding: 0.75rem 1.25rem;
-  border-radius: 10rem;
-  color: #fff;
-  text-transform: uppercase;
-  font-size: 10px;
-  letter-spacing: 0.15rem;
-  transition: all 0.3s;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
+    cursor: pointer;
+    display: inline-block;
+    padding: 0.75rem 1.25rem;
+    border-radius: 10rem;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.15rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
 }
 
 .cat_button:after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #0cf;
-  border-radius: 10rem;
-  z-index: -2;
+    content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #0cf;
+        border-radius: 10rem;
+        z-index: -2;
+
 }
 
 .cat_button h3 {
@@ -65,42 +64,122 @@ iframe {
   width: 100%;
 }
 
-/* Grid Layout */
+.recipe_card {
+  position: relative;
+}
+
+.fav-button-container {
+  position: absolute;
+  bottom: 10px;
+  left: -35px;
+}
+
+
+
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(220, 220, 220, 0.445);
+  border-radius: 5px;
+}
+
+
+.cat_button:after {
+    content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        background-color: #008fb3;
+        transition: all 0.3s;
+        border-radius: 10rem;
+        z-index: -1;
+
+}
+
+.cat_button:hover {
+    color: #fff;
+  }
+  .cat_button:hover:before {
+    width: 100%;
+  }
+
+
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(220, 220, 220, 0.445);
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(0, 6, 88, 0.192);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0300aa21;
+}
+
 .recipes_grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  /* Fixed invalid value */
-  grid-template-rows: repeat(2, 1fr);
+  grid-template-rows: repeat(2, auto);
+  grid-auto-flow: column;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-height: 100vh;
   gap: 20px;
-  padding: 20px;
+  padding: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
+  margin-bottom: 5rem;
 }
+
+
 
 .box {
   padding: 5px;
 }
 
 .recipe_card {
-  background-color: #e0e0e0b2;
-  box-shadow: 0 0 5px 5px #9e9c9c;
   transition: transform .2s ease-out;
-}
-
-.recipe_card h3 {
-  font-size: 15px;
-  margin-top: 10px;
-}
-
-.recipe_card img {
-  border-radius: 15px;
-  width: 200px;
   cursor: pointer;
+  
 }
 
 .recipe_card:hover {
   transform: scale(1.05);
 }
 
-/* Input Button */
+.recipe_card h3 {
+  padding: 1rem;
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+.recipe_card img {
+  border-radius: 20px;
+  width: 200px;
+  
+  
+}
+
+.search--box {
+  right: 160px;
+  position: relative;
+  display: inline-block;
+}
+
 .input {
   padding: 10px;
   width: 70px;
@@ -109,7 +188,6 @@ iframe {
   border: 4px solid rgb(26, 26, 26);
   border-radius: 50px;
   box-sizing: border-box;
-  font-family: Comic Sans MS;
   font-size: 1.5rem;
   color: rgb(255, 255, 255);
   outline: none;
@@ -140,7 +218,7 @@ iframe {
   z-index: -1;
 }
 
-/* Heading Styles */
+
 .heading {
   display: flex;
   height: 400px;
@@ -154,26 +232,43 @@ iframe {
   padding-right: 6rem;
 }
 
+.workout-heading {
+  display: flex;
+  height: 400px;
+  background: url(https://thumbs.dreamstime.com/b/healthy-fitness-concept-portrait-young-beautiful-african-american-showing-her-strong-muscle-confident-cheerful-facial-250648435.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-bottom: 2rem;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  padding-right: 6rem;
+}
+
 .header {
   position: relative;
-  right: 80px;
+    right: 80px;
   font-size: 3rem;
   text-transform: none;
   color: rgb(51, 51, 51);
   margin-bottom: 5px;
-  font-family: Comic Sans MS;
+
+}
+
+.home-header {
+  font-size: 3rem;
+  color: rgb(51, 51, 51);
+  margin-left: 3rem;
 }
 
 .subheader {
   font-size: 1.5rem;
-  font-family: Comic Sans MS;
 }
 
-/* Recipe Box */
 .recipe-box {
   background: #c0c0c085;
   padding: 10px;
-  font-family: Comic Sans MS;
+
 }
 
 .list-group {
@@ -185,7 +280,27 @@ iframe {
   justify-content: space-between;
 }
 
-/* Meal Info and Instructions */
+.box {
+ padding: 5px;
+}
+
+.recipe_card {
+background-color: #e0e0e0b2;
+box-shadow: 0 0 5px 5px #9e9c9c;
+transition: transform .2s ease-out;
+}
+
+.recipe_card h3{
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+.recipe_card img {
+  border-radius: 15px;
+  width: 200px;
+  cursor: pointer;
+  
+}
 .meal-info_header h1 {
   font-size: 30px;
 }
@@ -194,11 +309,27 @@ iframe {
   display: flex;
 }
 
+.recipe_card:hover {
+    transform: scale(1.05);
+}
+
+.corner-wrapper {
+  display: block;
+  overflow: hidden;
+height: 90%;
+  border-radius: 30px;
+  transform: translateZ(0px);
+  border: 3px solid #eeeeee00;
+}
+
+
+
 .meal-instructions {
   padding: 1rem;
   border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  background: #25252565;
+border-bottom-right-radius: 10px;
+background: #25252565;
+
 }
 
 .meal-ingredients {
@@ -208,6 +339,16 @@ iframe {
   background: #3d3d3d4a;
 }
 
+.list-group {
+  border-radius: 1.25rem;
+}
+
 .list-group-item {
   background: #5d5d5d94;
 }
+
+/* Modal styling */
+.Login-btn {
+  color: #006A4E;
+}
+

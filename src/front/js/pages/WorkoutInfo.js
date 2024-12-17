@@ -4,83 +4,76 @@ import { useParams } from "react-router-dom";
 const WorkoutInfo = () => {
   const { WorkoutID } = useParams();
   const [info, setInfo] = useState({});
+  const [instructions, setInstructions] = useState([]);
+  const [secondaryMuscles, setSecondaryMuscles] = useState([]);
 
   useEffect(() => {
     async function getInfo() {
-      let res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${WorkoutID}`);
-      let data = await res.json();
-      console.log(data);
-      setInfo(data.meals[0]);
+      const url = `https://exercisedb.p.rapidapi.com/exercises/exercise/${WorkoutID}`;
+      const options = {
+        method: 'GET',
+        headers: {
+          'x-rapidapi-key': process.env.API_KEY,
+          'x-rapidapi-host': 'exercisedb.p.rapidapi.com'
+        }
+      };
+
+      try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+        console.log(result);
+        setInfo(result);
+
+        if (result.instructions) {
+          setInstructions(result.instructions);
+        }
+        if (result.secondaryMuscles) {
+          setSecondaryMuscles(result.secondaryMuscles);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
     getInfo();
   }, [WorkoutID]);
 
-  const ingredientArray = Object.keys(info)
-    .filter(key => key.startsWith('strIngredient') && info[key])
-    .map(key => info[key]);
 
-
-  const measureArray = Object.keys(info)
-    .filter(key => key.startsWith('strMeasure') && info[key])
-    .map(key => info[key]);
-
-  const videoId = () => {
-    let vId = '';
-    if (info) {
-      const videoUrl = info.strYoutube;
-      if (videoUrl) {
-        const videoStr = videoUrl.split('=');
-        vId = videoStr[videoStr.length - 1];
-      }
-    }
-    return vId;
-  };
-
-
-  const vId = videoId()
 
   return (
     <>
       {!info ? (
         ""
       ) : (
-        <div data-aos="fade-in" className="recipe-box card mb-3 m-5" style={{ minWidth: "540px", borderRadius: "1.25rem", boxShadow: "0px 0px 30px 7px rgba(0,0,0,0.1)"}}>
-          <div className="" style={{ flexDirection: "row-reverse"}}>
-            <div class="meal-info_header d-flex">
+        <div data-aos="fade-in" className="recipe-box card mb-3 m-5" style={{ minWidth: "540px", borderRadius: "1.25rem", boxShadow: "0px 0px 30px 7px rgba(0,0,0,0.1)" }}>
+          <div className="" style={{ flexDirection: "row-reverse" }}>
+            <div className="meal-info_header d-flex">
               <div data-aos="fade-up-left" style={{ "border-radius": "20px !important" }} >
-                <img style={{ borderRadius: "1.25rem", width: "300px" }} className="img-fluid" src={info.strMealThumb} alt={info.strMeal} />
+                <img style={{ borderRadius: "1.25rem", width: "300px" }} className="img-fluid" src={info.gifUrl} alt={info.name} />
               </div>
-              <h1 data-aos="fade-down-right" style={{alignSelf: "center", fontSize: "2rem", marginLeft: "3rem"}}>{info.strMeal}</h1>
+              <h1 data-aos="fade-down-right" style={{ alignSelf: "center", fontSize: "2rem", marginLeft: "3rem" }}>{info.name}</h1>
+              <h2 data-aos="fade-down-right" style={{ alignSelf: "center", fontSize: "2rem", marginLeft: "3rem" }}>Target: {info.target}</h2>
+              <h2 data-aos="fade-down-right" style={{ alignSelf: "center", fontSize: "2rem", marginLeft: "3rem" }}>Body Part: {info.bodyPart}</h2>
+              <h2 data-aos="fade-down-right" style={{ alignSelf: "center", fontSize: "2rem", marginLeft: "3rem" }}>secondaryMuscles:
+                <ul>
+                  {secondaryMuscles.map((secondaryMuscle, index) => (
+                    <li key={index}>{secondaryMuscle}</li>
+                  ))}
+                </ul></h2>
             </div>
 
             <div style={{ display: "flex", flexDirection: "column" }}>
-              
-              
-              <div class="meal-body my-3">
-                <div data-aos="fade-right" class="meal-ingredients">
-                  <h2>Ingredients</h2>
-                  <ul className="list-group list-group-vertical">
-                    {ingredientArray.map((ingredient, index) => (
-                      <li style={{ width: "100%" }} class="list-group-item" key={index}>{ingredient} - {measureArray[index]} </li>
+              <div className="meal-body my-3">
+                <div style={{borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }} data-aos="fade-left" className="meal-instructions ps-4">
+                  <h2>Instructions</h2>
+                  <ul>
+                    {instructions.map((instruction, index) => (
+                      <li key={index}>{instruction}</li>
                     ))}
                   </ul>
-                </div>
-                <div data-aos="fade-left" class="meal-instructions ps-4">
-                  <h2>Instructions</h2>
-                  <p>{info.strInstructions}</p>
                 </div>
               </div>
             </div>
           </div>
-          <div data-aos="zoom-out-up">
-          <h2>Video Tutorial</h2>
-            <div style={{height: "499px"}}  className="tutorialVideo corner-wrapper ">
-              <iframe src={`https://www.youtube.com/embed/${vId}`}
-                title="Youtube video" allowFullScreen>
-              </iframe>
-            </div>
-          </div>
-
         </div>
       )}
     </>
@@ -88,3 +81,28 @@ const WorkoutInfo = () => {
 };
 
 export default WorkoutInfo;
+
+bodyPart
+:
+"waist"
+equipment
+:
+"body weight"
+gifUrl
+:
+"https://v2.exercisedb.io/image/n5lhFRwIiHQhuz"
+id
+:
+"0001"
+instructions
+:
+(5)['Lie flat on your back with your knees bent and feet flat on the ground.', 'Place your hands behind your head with your elbows pointing outwards.', 'Engaging your abs, slowly lift your upper body off…forward until your torso is at a 45-degree angle.', 'Pause for a moment at the top, then slowly lower your upper body back down to the starting position.', 'Repeat for the desired number of repetitions.']
+name
+:
+"3/4 sit-up"
+secondaryMuscles
+:
+(2)['hip flexors', 'lower back']
+target
+:
+"abs"

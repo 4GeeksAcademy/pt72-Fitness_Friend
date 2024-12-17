@@ -11,8 +11,13 @@ from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
 from flask_jwt_extended import JWTManager
-
+# from flask import send_from_directory
 # from models import Person
+
+# @app.route('/workspaces/pt72-Fitness_Friend/src/front/img')
+# def uploaded_file(img):
+#     return send_from_directory('front', img)
+
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(

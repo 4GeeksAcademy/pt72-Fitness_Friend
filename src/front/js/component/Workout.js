@@ -1,74 +1,74 @@
 import React, { useEffect, useState } from "react";
 import WorkoutCard from "./WorkoutCard";
-import MealCategories from "../pages/MealCategories";
-import FeaturedWorkout from "/workspaces/pt72-Fitness_Friend/src/front/js/component/FeaturedWorkout.js"
+import FeaturedWorkout from "/workspaces/pt72-Fitness_Friend/src/front/js/component/FeaturedWorkout.js";
+import WorkoutCategories from "../pages/WorkoutCategories";
 
 const Workout = () => {
     const [url, setUrl] = useState("");
-    const [workout, setWorkout] = useState([])
-    const [show, setShow] = useState(false)
-    const [search, setSearch] = useState("")
-    const [selectedCategory, setSelectedCategory] = useState(null)
+    const [workout, setWorkout] = useState([]);
+    const [show, setShow] = useState(false);
+    const [search, setSearch] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
     useEffect(() => {
         async function getExercise() {
-            let res = await fetch(url, {
-                method: "GET", 
-                headers: {'X-Api-Key': proccess.env.API_KEY}
-            });
-            let data = await res.json();
-            console.log(data);
-            setWorkout(data);
-            setShow(true)
-
-
+            if (!url) return; 
+            const options = {
+                method: 'GET',
+                headers: {
+                    'x-rapidapi-key': process.env.API_KEY,
+                    'x-rapidapi-host': 'exercisedb.p.rapidapi.com'
+                }
+            };
+            
+            try {
+                const response = await fetch(url, options);
+                const result = await response.json();
+                setWorkout(result);
+                setShow(true);
+                console.log(result);
+            } catch (error) {
+                console.error(error);
+            }
         }
         getExercise();
-    }, [url])
-
+    }, [url]);
 
     const catIndex = (cat) => {
-        setUrl(`https://api.api-ninjas.com/v1/exercises?type=${cat}`)
-        setSelectedCategory(cat)
-    }
+        setUrl(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${cat}`);
+        setSelectedCategory(cat);
+    };
 
     const searchExercise = (e) => {
-        if (e.key == 'Enter')
-            setUrl(`https://api.api-ninjas.com/v1/exercises?name=${search}`)
-        setSelectedCategory("search")
-    }
+        if (e.key === 'Enter') {
+            setUrl(`https://exercisedb.p.rapidapi.com/exercises/name/${search}?offset=0&limit=10`);
+            setSelectedCategory("search");
+        }
+    };
+
     return (
         <>
             <div className="main text-center">
-
-
-                <div data-aos="zoom-out-right" className="heading">
+                <div data-aos="zoom-out-right" className="workout-heading">
                     <h1 className="header">Workouts:</h1>
                     <h2 className="subheader">Simple Workout, Stunning Results</h2>
                     <div className="search--box">
-                        <div class="search input-group mb-3">
-                            <input onChange={(e) => setSearch(e.target.value)} onKeyDown={searchExercise} type="search" class="input" placeholder="" aria-label="Username" aria-describedby="basic-addon1" />
+                        <div className="search input-group mb-3">
+                            <input onChange={(e) => setSearch(e.target.value)} onKeyDown={searchExercise} type="search" className="input" placeholder="" aria-label="Username" aria-describedby="basic-addon1" />
                         </div>
-                        <i class="fas fa-search"></i>
+                        <i className="fas fa-search"></i>
                     </div>
                 </div>
                 <div className="categories text-center d-flex">
-                    <MealCategories catIndex={(cat) => catIndex(cat)} />
+                    {/* <WorkoutCategories catIndex={(cat) => catIndex(cat)} /> */}
                 </div>
-
                 <div className="recipes_grid mt-5 mx-auto">
-                    {selectedCategory === null && <FeaturedWorkout />}
-                    {show ? <WorkoutCard data={workout} /> : ""}
-
-
+                    {/* {selectedCategory === null && <FeaturedWorkout />}
+                    {show ? <WorkoutCard data={workout} /> : ""} */}
                 </div>
-
-            
             </div>
-
-
         </>
-
     );
-}
+};
+
 export default Workout;

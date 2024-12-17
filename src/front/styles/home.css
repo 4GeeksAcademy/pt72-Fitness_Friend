@@ -9,12 +9,13 @@
 .navbar .logo img {
   height: 359px;
   width: auto;
-  margin: -270px;
+  margin: -250px;
+  padding: 30px;
 }
 
 .navbar {
-  padding-top: 1%;
-  padding-bottom: 2%;
+  padding-top: 3px;
+  padding-bottom: 1px;
   padding-left: 12%;
   background: linear-gradient(0deg, #348ac7) 4%, rgba(15, 2, 5, 0.968207351299895 53%);
 }
@@ -23,6 +24,10 @@
   color: white;
 }
 
+a {
+  text-decoration: none;
+  color: black;
+}
 
 /*#exampleModalLabel {
   position: absolute;
@@ -39,9 +44,14 @@
   object-position: cover;
   overflow: hidden;
   height: 60vh;
-  padding-top: 4%;
+  padding-top: 6%;
   padding-bottom: 6%;
 
+}
+
+.overlay {
+  overflow: hidden;
+  position: relative;
 }
 
 .footer {
@@ -72,9 +82,10 @@
   font-family: "Poppins" sans-serif;
   text-decoration: none;
   text-align: center;
-  padding-top: 2%;
-  font-size: 50px;
-  color: #f08834;
+  padding-top: 8px;
+  padding-left: 9%;
+  font-size: 35px;
+  color: #ea9010;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 
 }
@@ -129,17 +140,70 @@ body {
 }
 
 
-.profile-content {
-  
-  background-color: white;
+
+
+/* for profile styling */
+
+
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
 }
 
-.profile-title {
-  font-size: 20px;
-  font-weight: 500px;
+
+.breadcrumb {
+  background-color: #c5cee4;
+
 }
 
-.profile-layout {
-  display: grid;
-  grid-template-columns: auto auto;
+.breadcrumb a {
+  text-decoration: none;
+}
+
+.container {
+  max-width: 1500px;
+  padding: 0;
+}
+
+.profile-txt {
+  margin: 5px;
+}
+
+.d-flex a {
+  text-decoration: none;
+  color: #686868;
+}
+
+/* img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+} */
+
+.fab.fa-twitter {
+  color: #8ab7f1;
+}
+
+.fab.fa-instagram {
+  color: #E1306C;
+}
+
+.fab.fa-facebook-f {
+  color: #5999ec;
+}
+
+.basic-details {
+  height: 230px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }

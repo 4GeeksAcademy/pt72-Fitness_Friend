@@ -1,12 +1,15 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
 import { Context } from "../store/appContext";
+import { useNavigate } from "react-router-dom";
 
 export const LoginModal = () => {
+  const [show, setShow] = useState(false);
   const [signupView, setSignupView] = useState(false);
-  const { store, actions } = useContext(Context);
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+  const { actions } = useContext(Context);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -16,215 +19,107 @@ export const LoginModal = () => {
     weight: "",
   });
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value || "",
+    }));
   };
 
-  const logInUser = async () => {
-    actions.login(email, password);
-  };
-  const createUser = async (e) => {
+  const logInUser = (e) => {
     e.preventDefault();
-    let response = await fetch(process.env.BACKEND_URL + "/signup", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify(formData),
-    });
-    if (response.ok) {
-      alert("User created successfully!");
-    } else {
-      alert("Error creating user.");
-    }
-
-    let data = await response.json();
+    actions
+      .login(formData.email, formData.password)
+      .then(() => navigate('/profile'))
+      .catch(() => alert("Error logging in."));
   };
+
+  const createUser = (e) => {
+    e.preventDefault();
+    fetch(`${process.env.BACKEND_URL}/signup`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          alert("User created successfully!")
+        } else {
+          alert("Error creating user.");
+        }
+      })
+      .catch(() => console.log("An unexpected error occurred."));
+  };
+
+  const renderFormFields = (fields) =>
+    fields.map((field) => (
+      <Form.Group className="mb-3" controlId={field.name} key={field.name}>
+        <Form.Control
+          type={field.type}
+          name={field.name}
+          placeholder={field.placeholder}
+          value={formData[field.name] || ""}
+          onChange={handleChange}
+          required={field.required}
+        />
+      </Form.Group>
+    ));
+
+  const signupFields = [
+    { name: "name", type: "text", placeholder: "Name", required: true },
+    { name: "last_name", type: "text", placeholder: "Last Name", required: true },
+    { name: "height", type: "number", placeholder: "Height (cm)", required: true },
+    { name: "weight", type: "number", placeholder: "Weight (kg)", required: true },
+    { name: "email", type: "email", placeholder: "Email", required: true },
+    { name: "password", type: "password", placeholder: "Password", required: true },
+  ];
+
+  const loginFields = [
+    { name: "email", type: "email", placeholder: "Email", required: true },
+    { name: "password", type: "password", placeholder: "Password", required: true },
+  ];
 
   return (
-    <div>
-      <button
-        type="button"
-        className="button modal-btn"
-        style={{ maxHeight: "47px" }}
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      >
+    <>
+      <Button variant="primary" onClick={handleShow} style={{ backgroundColor: "transparent", border: "none", color: "black" , padding: "0"}} >
         Login
-      </button>
-      <div
-        className="modal fade"
-        id="exampleModal"
-        tabIndex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <img
+      </Button>
+
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>
+          <img
                 className="img-fluid"
                 alt="Responsive image"
                 src="https://i.imgur.com/sB3VJu2.png"
-                style={{ width: "105px", marginLeft: "auto" }}
+                style={{ width: "105px", marginLeft: "177px" }}
               />
-
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-
-                style={{ marginBottom: "30px" }}
-              ></button>
-            </div>
-            <div className="modal-body">
-              {signupView ? (
-                <form onSubmit={createUser} className=" mx-auto">
-                  <div className=" mb-3">
-                    <div className="mb-3">
-                      <label htmlFor="name" className="form-label"></label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="name"
-                        name="name"
-                        placeholder="Name"
-                        onChange={handleChange}
-                        required
-                      />
-
-                    </div>
-                    <div className="mb-3">
-                      <label htmlFor="last_name" className="form-label"></label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="last_name"
-                        name="last_name"
-                        placeholder="Last Name"
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="mb-3">
-                    <div className="mb-3">
-                      <label htmlFor="height" className="form-label"></label>
-                      <input
-                        type="number"
-                        className="form-control"
-                        id="height"
-                        name="height"
-                        placeholder="Height (cm)"
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-
-                    <div className="mb-3">
-                      <label htmlFor="weight" className="form-label"></label>
-                      <input
-                        type="number"
-                        className="form-control"
-                        id="weight"
-                        name="weight"
-                        placeholder="Weight (kg)"
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="mb-3">
-
-                    <label htmlFor="email" className="form-label"></label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="email"
-                      name="email"
-                      placeholder="Email"
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="mb-3">
-
-                    <label htmlFor="password" className="form-label"></label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      id="password"
-                      name="password"
-                      placeholder="Password"
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-
-                  <button type="submit" className="btn btn-warning w-100">
-                    Sign up
-                  </button>
-                </form>
-              ) : (
-                <div className="input-group input-group-lg">
-                  <div className="input-group input-group-lg">
-                    <span
-                      style={{ "font-size": "15px" }}
-                      className="input-group input-group-lg mb-3 my-auto"
-                      id="inputGroup-sizing-default"
-                    >
-                      {" "}
-                      Email
-                    </span>
-                    <input
-                      onChange={(e) => setEmail(e.target.value)}
-                      type="text"
-                      className="form-control"
-                      aria-label="Sizing example input"
-                      aria-describedby="inputGroup-sizing-default"
-                    />
-                  </div>
-
-                  <div className="input-group input-group-lg">
-                    <span
-                      className="input-group input-group-lg mb-3"
-                      id="inputGroup-sizing-default"
-                      style={{ fontSize: "15px" }}
-                    >
-                      {" "}
-                      Password
-                    </span>
-                    <input
-                      onChange={(e) => setPassword(e.target.value)}
-                      type="password"
-                      className="form-control"
-                      aria-label="Sizing example input"
-                      aria-describedby="inputGroup-sizing-default"
-                    />
-                  </div>
-
-                  <button
-                    className=" btn btn-warning mt-3 rounded"
-                    onClick={() => logInUser()}
-                    style={{ width: "483px" }}
-                  >
-                    Log in
-                  </button>
-                </div>
-              )}
-
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn"
-                onClick={() => setSignupView(!signupView)}
-              >
-                {signupView ? "Go to Login" : "Create New Acount"}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={signupView ? createUser : logInUser}>
+            {renderFormFields(signupView ? signupFields : loginFields)}
+            <Button type="submit" className="w-100" style={{backgroundColor: "#006A4E", border: "none"}}>
+              {signupView ? "Sign Up" : "Log In"}
+            </Button>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="link"
+            style={{textDecoration: "none", color: "#000000"}}
+            onClick={() => setSignupView(!signupView)}
+          >
+            {signupView ? "Go to Login" : "Create New Account"}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
+
+export default LoginModal;

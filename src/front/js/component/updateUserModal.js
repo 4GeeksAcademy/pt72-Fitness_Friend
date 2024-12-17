@@ -9,6 +9,8 @@ export const UpdateUserModal = () => {
     height: "",
     name: "",
     last_name: "",
+    weight: "",
+    pic: null,
   });
 
   // Handle input changes
@@ -18,7 +20,8 @@ export const UpdateUserModal = () => {
 
   // Update user profile
   const handleUpdateUser = async () => {
-    await actions.updateUser(formData);
+    const updatedFormData = { ...formData };
+    await actions.updateUser(updatedFormData);
     alert("Profile updated successfully!");
   };
 

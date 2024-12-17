@@ -9,13 +9,22 @@ const FeaturedWorkout = () => {
   useEffect(() => {
     async function getInfo() {
       const workouts = []
-      for (let i = 0; i < 8; i++) {
-        let res = await fetch(`https://api.api-ninjas.com/v1/exercises?muscle=biceps`, {
-          method: "GET", 
-          headers: {'X-Api-Key': proccess.env.API_KEY}
-      });
-        let data = await res.json();
-        workouts.push(data.meals)
+      const url = 'https://exercisedb.p.rapidapi.com/exercises?limit=10&offset=0';
+      const options = {
+        method: 'GET',
+        headers: {
+          'x-rapidapi-key': process.env.API_KEY,
+          'x-rapidapi-host': 'exercisedb.p.rapidapi.com'
+        }
+      };
+      
+      try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+        console.log(result);
+        workouts.push(result)
+      } catch (error) {
+        console.error(error);
       }
 
       console.log(workouts);
@@ -39,10 +48,24 @@ const FeaturedWorkout = () => {
         }
 
       
-
+{/* proccess.env.API_KEY */}
 
     </>
   );
 }
 
 export default FeaturedWorkout;
+
+
+// const workouts = []
+// for (let i = 0; i < 8; i++) {
+//   let res = await fetch(`https://exercisedb.p.rapidapi.com/exercises/bodyPartList`, {
+//     method: "GET", 
+//     headers: {
+//       'x-rapidapi-key': process.env.API_KEY,
+//       'x-rapidapi-host': 'exercisedb.p.rapidapi.com'
+//     }
+// });
+//   let data = await res.json();
+//   workouts.push(data)
+// }

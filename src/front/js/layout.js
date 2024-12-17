@@ -18,8 +18,6 @@ import MealInfo from "./pages/MealInfo";
 import FeaturedRecipes from "./component/FeaturedRecipes"
 import WorkoutInfo from "./pages/WorkoutInfo";
 import Workout from "./component/Workout";
-import ExerciseList from "./component/ExerciseList";
-import ExerciseDetail from '/workspaces/pt72-Fitness_Friend/src/front/js/component/ExerciseDetail.js';
 
 //create your first component
 const Layout = () => {
@@ -36,10 +34,10 @@ const Layout = () => {
                     <Navbar />
                     <Routes>
                         <Route element={<Home />} path="/" />
-                        <Route element={<MealInfo />} path="/:MealId" />
+                        <Route element={<MealInfo />} path="/meal/:MealId" />
+                        <Route element={<WorkoutInfo />} path="/workout/:WorkoutID" />
                         <Route element={<Meal/>} path="/meal" />
-                        <Route path="/exercise/:id" element={<ExerciseDetail />} />
-                        <Route element={<ExerciseList/>} path="/exercise" />
+                        <Route element={<Workout/>} path="/workout" />
                         <Route element={<LogIn />} path="/login" />
                         <Route element={<Profile />} path="/profile" />
                         <Route element={<SignUp />} path="/signup" />
