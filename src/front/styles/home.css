@@ -207,3 +207,9 @@ body {
   flex-direction: column;
   justify-content: space-evenly;
 }
+
+
+.nav-item.nav-link.active {
+  font-weight: bold;
+  color: #007BFF; /* Or any color you'd like */
+}
